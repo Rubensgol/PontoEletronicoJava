@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+	<script src="https://www.gstatic.com/charts/loader.js"></script>
+	<script>
+		function chamaExcel() {
+			window.location.replace("/geraXls?cpf=" + $("#funcionarioSelect").val());
+		}
+
+		function chamaWord() {
+			window.location.replace("/geraDOC?cpf=" + $("#funcionarioSelect").val());
+		}
+		function chamarGrafico() {
+			var select = document.getElementById('funcionarioSelect');
+			var cpf = select.options[select.selectedIndex].value;
+			$.ajax({
+				url: '/geraGrafico',
+				data: {
+					cpf: cpf
+				},
+				success: function (response) {
+					$(".result").html(response);
+				},
+				error: function () {}
+			});
+			return false;
+		}
+		function chamarTabela() {
+			var select = document.getElementById('funcionarioSelect');
+			var cpf = select.options[select.selectedIndex].value;
+			$.ajax({
+				url: '/verTabela',
+				data: {
+					cpf: cpf
+				},
+				success: function (response) {
+					$(".result").html(response);
+				},
+				error: function () {}
+			});
+			return false;
+		}
+		jQuery.fn.filterByText = function (textbox, selectSingleMatch) {
+			return this.each(function () {
+				var select = this;
+				var options = [];
+				$(select).find('option').each(function () {
+					options.push({
+						value: $(this).val(),
+						text: $(this).text()
+					});
+				});
+				$(select).data('options', options);
+				$(textbox).bind('change keyup', function () {
+					var options = $(select).empty().scrollTop(0).data('options');
+					var search = $.trim($(this).val());
+					var regex = new RegExp(search, 'gi');
+
+					$.each(options, function (i) {
+						var option = options[i];
+						if (option.text.match(regex) !== null) {
+							$(select).append(
+								$('<option>').text(option.text).val(option.value)
+							);
+						}
+					});
+					if (selectSingleMatch === true &&
+						$(select).children().length === 1) {
+						$(select).children().get(0).selected = true;
+					}
+				});
+			});
+		};
+		$(function () {
+			$('#funcionarioSelect').filterByText($('#procurar'), true);
+		});
+	</script>
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link href="css/cadastroUsuario.css" rel="stylesheet">
+</head>
+<body>
+	<div lass="form-group">
+		<form action="../phpToexcel.php">
+			<legend>Ver Funcionario:</legend>
+			<input type="text" name="procurar" list="funcionarios" id="procurar" size="37" value="">
+			<select class="form-control" name="funcionarioSelect" id="funcionarioSelect">
+				<option th:each="funcionario : *{funcionarios}" th:value="${funcionario.cpf}"
+					th:text="${funcionario.nome}">
+				</option>
+			</select>
+			<button type="button" name="acao" id="acao" onclick="return chamarTabela()">Ver relatorio</button>
+			<button type="button" name="acao" id="acao" onclick="return chamarGrafico()">Gerar Grafico</button>
+		</form>
+		<input type="image" src="images/word.png" class="imagem" style="width:50px;height:50px;" onclick="chamaWord()">
+		<input type="image" src="/images/excel.jpg" class="imagem" style="width:50px;height:50px;" value="excel"
+			onclick="chamaExcel()">
+		<table class="result table table-sm table-dark"></table>
+		<div id="chart_div" style="width: 500px; height: 500px;"></div>
+	</div>
+</body>
+</html>

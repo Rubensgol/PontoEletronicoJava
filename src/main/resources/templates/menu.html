@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<script src="scripts/relogio.js"></script>
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/login.css" rel="stylesheet">
+	<title>Menu</title>
+</head>
+<script>
+	function redirecionar() {
+		window.location.href = document.getElementById("opcaoAcao").value;
+	}
+</script>
+<body class="text-center">
+	<h3 id="relogio"></h3>
+	<div class="form-singin">
+     <!--<h1 class="h3 mb-3 font-weight-normal">Olá <span th:text="${user.login}"></span></h1>-->
+	<br>
+		<div>
+			<select id="opcaoAcao">
+			
+				<option value="/cadastrarFuncionario" selected>Cadastrar funcionario</option>
+				<option value="/cadastrarCargo">Cadastrar cargo</option>
+				<option value="/cadastrarTipoPonto">Cadastrar o tipo de ponto</option>
+				<option value="/verRelatorioIndividual">visualizar relatorio Invidual</option>
+				<option value="/verRelatorioSetor">visualizar relatorio por Setor</option>
+				<option value="/editarFuncionario">Editar funcionario</option>
+			</select>
+		</div>
+		<div class="mudarPagina">
+			<a href="/voltaHome"  class="btn btn-lg btn-primary">sair</a>
+			<input  type="button" id="selecionaropcao" name="selecionaropcao" value="Selecionar" onclick="redirecionar()" class=" btn btn-lg btn-primary btn-block">
+		</div>
+	</div>
+	<br>
+</body>
+</html>

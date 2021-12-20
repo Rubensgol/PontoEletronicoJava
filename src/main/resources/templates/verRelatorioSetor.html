@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+	<script src="https://www.gstatic.com/charts/loader.js"></script>
+	<script th:inline="javascript">
+    var javascript_array = /*[[${setores}]]*/ [];
+</script>
+	<script>
+		google.charts.load("current", {packages: ['corechart']});
+		google.charts.setOnLoadCallback(drawChart);
+		function drawChart() {
+			//var data = google.visualization.arrayToDataTable(array);
+			var data = new google.visualization.DataTable();
+			
+			data.addColumn('string', 'setor');
+			data.addColumn('number', 'registros');
+			
+			for (var [key, value] of Object.entries(javascript_array)) {
+				var seto=value["setor"];
+				var reg=value["registros"];
+				data.addRow([seto, reg ]);
+			}
+			var options = {
+				title: 'Entradas e saidas registradas',
+				legend: {
+					position: 'none'
+				},
+			};
+			var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+			chart.draw(data, options);
+		}
+		document.getElementById("chart_div").textContent = drawChart();
+		function chamaExcel() {
+			window.location.replace("../phpToexcel.php?cpf=" + $("#funcionarioSelect").val());
+		}
+		function chamaWord() {
+			window.location.replace("../phpToWord.php?cpf=" + $("#funcionarioSelect").val());
+		}
+	</script>
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/cadastroUsuario.css" rel="stylesheet">
+</head>
+
+<body>
+	<div lass="form-group">
+		<form action="../phpToexcel.php">
+			<legend>Ver Setores:</legend>
+
+			<button type="button" name="acao" id="acao" onclick="return drawChart()">Exibir Grafico</button>
+
+		</form>
+		<table class="result table table-sm table-dark"></table>
+		<div id="chart_div" style="width: 500px; height: 500px;">
+
+		</div>
+	</div>
+
+</body>
+
+</html>

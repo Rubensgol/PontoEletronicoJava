@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="css/login.css" rel="stylesheet">
+	<script src="scripts/relogio.js"></script>
+</head>
+
+<body class="text-center">
+	<form action="/baterponto" method="post" class="form-signin">
+		<h3 id="relogio"></h3>
+		<h1 class="h3 mb-3 font-weight-normal">Bata o Ponto</h1>
+		<label for="cpf" class="sr-only">Cpf</label>
+		<input type="text" id="cpf" name="cpf" class="form-control" placeholder="cpf" required autofocus>
+		<div class="form-group">
+			<label for="tipoRegistro">Tipo registro:</label>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="checkbox" name="tipoponto" id="tipoponto" th:each="TipoPonto: *{teste}"
+					th:value="${TipoPonto.id}"th:text="${TipoPonto.descricao}  "/>
+			</div>
+		</div>
+		<a href="/voltaHome" class="btn btn-lg btn-primary btn-block">Voltar</a>
+		<button name="btnPonto" value="btnPonto" class="btn btn-lg btn-primary btn-block" type="submit">Bater</button>
+	</form>
+</body>
+
+</html>

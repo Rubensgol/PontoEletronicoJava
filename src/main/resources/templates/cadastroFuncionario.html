@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<title></title>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/cadastroUsuario.css" rel="stylesheet">
+	<link href="css/login.css" rel="stylesheet">
+</head>
+
+<body "text-center">
+	<form action="/cadastraFuncionarioAcao" method="post" class="form-singin">
+		<INPUT TYPE="hidden" NAME="tipo" VALUE="cadastro">
+		<div class="form-group">
+			<label for="exampleInputEmail1">Endereço de email</label>
+			<input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+				placeholder="Email">
+		</div>
+		<div class="form-group">
+			<label for="nome">Nome</label>
+			<input type="text" class="form-control" id="nome" name="nome" placeholder="Nome">
+		</div>
+		<div class="form-group">
+			<label for="cpf">CPF</label>
+			<input type="text" class="form-control" id="cpf" name="cpf" placeholder="CPF">
+		</div>
+		<div class="form-group">
+			<label for="telefone">Telefone</label>
+			<input type="tel" class="form-control" name="telefone" id="telefone" placeholder="(xx)xxxxxxxx">
+		</div>
+		<div class="form-group">
+			<label for="cargoSelect">Escolha o cargo</label>
+			<select class="form-control" name="cargosSelect" id="cargoSelect">
+				<option th:each="cargo : *{cargos}" th:value="${cargo.id}" th:text="${cargo.atribuicao}">
+				</option>
+			</select>
+		</div>
+		<div>
+			<a href="/voltaMenu" class="btn btn-lg btn-primary">Voltar</a>
+			<button type="submit" class="btn btn-lg btn-primary" name="acao" id="acao" value="salvar">Salvar
+				Funcionario</button>
+		</div>
+	</form>
+
+</body>
+
+</html>
